@@ -34,10 +34,10 @@ dat=data.frame(SS=datamat$SS[2:nrow(datamat)],ret)
 
 # Run the regression progressively increasing T and K
 T= as.integer(seq(50,7345,length.out=50))
-
 fstat=matrix(NA,nrow=length(T),ncol=length(markets))
 Rsq=matrix(NA,nrow=length(T),ncol=length(markets))
-CR=matrix(NA,nrow=length(T),ncol=length(markets))
+CR1=matrix(NA,nrow=length(T),ncol=length(markets))
+CR2=matrix(NA,nrow=length(T),ncol=length(markets))
 # Do-loop for estimation
 for(i in 1:length(T)){
   for(j in 1:(length(markets))){
@@ -45,7 +45,8 @@ for(i in 1:length(T)){
     M=lm(tem, data=dat[1:T[i],])
     fstat[i,j]=summary(M)$fstatistic[1]
     Rsq[i,j]=summary(M)$r.squared
-    CR[i,j]=qf(0.95,df1=j,df2=T[i]-j-1)
+    CR1[i,j]=qf(0.95,df1=j,df2=T[i]-j-1)
+    CR2[i,j]=qf(0.95,df1=j,df2=T[i]-j-1,ncp=T[i]*005/(1-0.05))
   }}
 
 # 3d plot for F-test statistics
@@ -104,7 +105,7 @@ for(i in 1:length(T))
 
 # 3D plot for critical values 
 persp(T,K,CR,xlab='T', ylab='K', zlab='',
-      main='5% Critical Values of Non-central F-distribution', nticks=6, col='lightblue', 
+      main='5% Critical Values of Non-central F-distribution (P0=0.05)', nticks=6, col='lightblue', 
       theta = 130, phi =0,
       cex.lab=1, cex.axis=0.7,
       ticktype='detailed')
