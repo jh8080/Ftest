@@ -46,7 +46,7 @@ for(i in 1:length(T)){
     fstat[i,j]=summary(M)$fstatistic[1]
     Rsq[i,j]=summary(M)$r.squared
     CR1[i,j]=qf(0.95,df1=j,df2=T[i]-j-1)
-    CR2[i,j]=qf(0.95,df1=j,df2=T[i]-j-1,ncp=T[i]*005/(1-0.05))
+    CR2[i,j]=qf(0.95,df1=j,df2=T[i]-j-1,ncp=T[i]*0.05/(1-0.05))
   }}
 
 # 3d plot for F-test statistics
